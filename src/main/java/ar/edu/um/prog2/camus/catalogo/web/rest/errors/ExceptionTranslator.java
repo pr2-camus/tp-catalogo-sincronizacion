@@ -2,6 +2,8 @@ package ar.edu.um.prog2.camus.catalogo.web.rest.errors;
 
 import static org.springframework.core.annotation.AnnotatedElementUtils.findMergedAnnotation;
 
+import ar.edu.um.prog2.camus.catalogo.error.BusinessException;
+import ar.edu.um.prog2.camus.catalogo.error.ErrorKind;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import java.net.URI;
@@ -23,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.ErrorResponse;
@@ -49,6 +52,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     private static final String FIELD_ERRORS_KEY = "fieldErrors";
     private static final String MESSAGE_KEY = "message";
     private static final String PATH_KEY = "path";
+    private static final String CODE_KEY = "code";
     private static final boolean CAUSAL_CHAIN_ENABLED = false;
 
     private static final Logger LOG = LoggerFactory.getLogger(ExceptionTranslator.class);
@@ -118,6 +122,11 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
         );
 
         if (problemProperties == null || !problemProperties.containsKey(PATH_KEY)) problem.setProperty(PATH_KEY, getPathValue(request));
+
+        if (problemProperties == null || !problemProperties.containsKey(CODE_KEY)) problem.setProperty(
+            CODE_KEY,
+            resolveCode(err, problem.getStatus())
+        );
 
         if (
             err instanceof MethodArgumentNotValidException fieldException &&
@@ -212,6 +221,7 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     private HttpStatus getMappedStatus(Throwable err) {
         // Where we disagree with Spring defaults
         if (err instanceof AccessDeniedException) return HttpStatus.FORBIDDEN;
+        if (err instanceof BusinessException businessException) return toHttpStatus(businessException.getKind());
         if (err instanceof ConcurrencyFailureException) return HttpStatus.CONFLICT;
         if (err instanceof BadCredentialsException) return HttpStatus.UNAUTHORIZED;
         if (err instanceof ConstraintViolationException) return HttpStatus.BAD_REQUEST;
@@ -261,5 +271,31 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
             "de.",
             "ar.edu.um.prog2.camus.catalogo"
         );
+    }
+
+    private String resolveCode(Throwable err, int status) {
+        if (err instanceof BusinessException businessException) return businessException.getCode();
+        if (err instanceof MethodArgumentNotValidException || err instanceof ConstraintViolationException) return "VALIDATION_ERROR";
+        if (err instanceof HttpMessageNotReadableException) return "MALFORMED_REQUEST";
+        if (err instanceof ConcurrencyFailureException) return "CONCURRENCY_FAILURE";
+        return switch (status) {
+            case 400 -> "BAD_REQUEST";
+            case 401 -> "UNAUTHORIZED";
+            case 403 -> "ACCESS_DENIED";
+            case 404 -> "NOT_FOUND";
+            case 405 -> "METHOD_NOT_ALLOWED";
+            case 409 -> "CONFLICT";
+            case 503 -> "SERVICE_UNAVAILABLE";
+            default -> status >= 500 ? "INTERNAL_ERROR" : "HTTP_" + status;
+        };
+    }
+
+    private HttpStatus toHttpStatus(ErrorKind kind) {
+        return switch (kind) {
+            case VALIDATION -> HttpStatus.BAD_REQUEST;
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case CONFLICT -> HttpStatus.CONFLICT;
+            case UNAVAILABLE -> HttpStatus.SERVICE_UNAVAILABLE;
+        };
     }
 }
