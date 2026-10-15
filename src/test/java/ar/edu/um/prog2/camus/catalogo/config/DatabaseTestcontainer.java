@@ -10,7 +10,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 @TestConfiguration(proxyBeanMethods = false)
 public class DatabaseTestcontainer {
 
-    private static final PostgreSQLContainer DATABASE_CONTAINER = new PostgreSQLContainer("postgres:18.6")
+    private static final PostgreSQLContainer DATABASE_CONTAINER = new PostgreSQLContainer("postgres:17-alpine")
         .withDatabaseName("catalogo")
 
         .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(DatabaseTestcontainer.class)))
