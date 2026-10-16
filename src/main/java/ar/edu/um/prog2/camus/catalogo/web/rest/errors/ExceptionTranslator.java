@@ -23,6 +23,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -84,6 +85,12 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
         WebRequest request
     ) {
         body = body == null ? wrapAndCustomizeProblem(ex, (NativeWebRequest) request) : body;
+        if (
+            body instanceof ProblemDetail problemDetail &&
+            (problemDetail.getProperties() == null || !problemDetail.getProperties().containsKey(CODE_KEY))
+        ) {
+            problemDetail.setProperty(CODE_KEY, resolveCode(ex, problemDetail.getStatus()));
+        }
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
 
