@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-<!-- calidad:inicio -->
-
-![Calidad](https://img.shields.io/badge/Calidad-sin%20c%C3%B3digo-lightgrey) ![Aprobar](https://img.shields.io/badge/Aprobar-no-red) ![Destacar](https://img.shields.io/badge/Destacar-no-lightgrey)
-
-**Calidad (7 dimensiones):** sin código en `main` (no evaluable).
-<!-- calidad:fin -->
-
-# tp-catalogo-sincronizacion
-
-Servicio Spring Boot de catálogo y sincronización con Redis y Kafka
-=======
-
 # catalogo
 
 This application was generated using JHipster 9.4.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v9.4.0](https://www.jhipster.tech/documentation-archive/v9.4.0).
@@ -185,5 +172,3 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 - [Setting up Continuous Integration](https://www.jhipster.tech/documentation-archive/v9.4.0/setting-up-ci/)
 - [Node.js](https://nodejs.org/)
 - [NPM](https://www.npmjs.com/)
-
-> > > > > > > 2-generar-jhipster
