@@ -173,7 +173,15 @@ spring:
   output:
     ansi:
       console-available: true
-
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID}
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      ack-mode: manual
 server:
   servlet:
     session:
@@ -227,3 +235,9 @@ jhipster:
 catedra:
   api-url: ${CATEDRA_API_URL}
   jwt: ${CATEDRA_JWT}
+kafka:
+  topics:
+    catalogo: ${KAFKA_CATALOG_TOPIC}
+
+sync:
+  intervalo-ms: 300000
