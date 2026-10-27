@@ -16,7 +16,12 @@
 spring:
   application:
     name: catalogo
-  # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
   liquibase:
     contexts: test
   jackson:
