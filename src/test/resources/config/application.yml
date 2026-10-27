@@ -98,3 +98,6 @@ management:
   health:
     mail:
       enabled: false
+
+sync:
+  intervalo-ms: 300000
