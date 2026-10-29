@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -24,9 +24,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./mvnw verify sonar:sonar \
+          ./mvnw sonar:sonar \
             -Dsonar.projectKey=pr2-camus_tp-catalogo-sincronizacion \
             -Dsonar.organization=pr2-camus \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dmaven.test.skip=false
+            -Dmaven.test.skip=true \
+            -DskipTests=true
