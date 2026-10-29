@@ -82,7 +82,7 @@ public class SyncToLatestUseCaseImpl {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void aplicarVersion(long version) throws Exception {
         String changesJson = redisPort.obtenerCambios(version);
 
