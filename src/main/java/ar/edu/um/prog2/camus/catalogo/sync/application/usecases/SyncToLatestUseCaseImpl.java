@@ -8,8 +8,6 @@ import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.in.SincronizarCatalogoUs
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.RedisPort;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.SnapshotClientPort;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.VersionRepositoryPort;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @Component
 public class SyncToLatestUseCaseImpl {

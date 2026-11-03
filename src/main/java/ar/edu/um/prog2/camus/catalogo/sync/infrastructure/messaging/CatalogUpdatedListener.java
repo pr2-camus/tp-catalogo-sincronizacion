@@ -3,8 +3,6 @@ package ar.edu.um.prog2.camus.catalogo.sync.infrastructure.messaging;
 import ar.edu.um.prog2.camus.catalogo.catalog.infrastructure.persistence.entity.ProcessedEventEntity;
 import ar.edu.um.prog2.camus.catalogo.sync.application.usecases.SyncToLatestUseCaseImpl;
 import ar.edu.um.prog2.camus.catalogo.sync.infrastructure.persistence.repository.JpaProcessedEventRepository;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -13,6 +11,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @Component
 public class CatalogUpdatedListener {

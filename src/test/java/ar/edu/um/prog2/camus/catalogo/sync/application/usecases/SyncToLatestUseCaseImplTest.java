@@ -6,12 +6,12 @@ import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.out.CatalogoRepositor
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.in.SincronizarCatalogoUseCase;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.RedisPort;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.VersionRepositoryPort;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith(MockitoExtension.class)
 class SyncToLatestUseCaseImplTest {
