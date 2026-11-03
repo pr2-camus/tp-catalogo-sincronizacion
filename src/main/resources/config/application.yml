@@ -70,6 +70,8 @@ management:
   health:
     mail:
       enabled: false # When using the MailService, configure an SMTP server and set this to true
+    redis:
+      enabled: false # el usuario de Redis de la catedra no tiene permiso para INFO
   prometheus:
     metrics:
       export:
@@ -102,7 +104,7 @@ spring:
     name: catalogo
   docker:
     compose:
-      enabled: true
+      enabled: false
       lifecycle-management: start-only
       file: src/main/docker/postgresql.yml
   profiles:
@@ -119,6 +121,11 @@ spring:
   jmx:
     enabled: false
   data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:}
+      password: ${REDIS_PASSWORD:}
     jpa:
       repositories:
         bootstrap-mode: deferred
@@ -181,6 +188,7 @@ spring:
       enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
       ack-mode: manual
 server:
   servlet:
