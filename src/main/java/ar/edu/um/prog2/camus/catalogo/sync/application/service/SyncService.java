@@ -1,8 +1,11 @@
 package ar.edu.um.prog2.camus.catalogo.sync.application.service;
 
 import ar.edu.um.prog2.camus.catalogo.sync.application.usecases.SyncToLatestUseCaseImpl;
+import ar.edu.um.prog2.camus.catalogo.sync.domain.model.EstadoSincronizacion;
+import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.in.ObtenerEstadoSincronizacionUseCase;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.in.SincronizarCatalogoUseCase;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.VersionRepositoryPort;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -18,18 +21,24 @@ public class SyncService {
     private final SincronizarCatalogoUseCase fullSyncUseCase;
     private final SyncToLatestUseCaseImpl syncToLatestUseCase;
     private final VersionRepositoryPort versionRepository;
+    private final ObtenerEstadoSincronizacionUseCase obtenerEstadoUseCase;
 
     public SyncService(
         SincronizarCatalogoUseCase fullSyncUseCase,
         SyncToLatestUseCaseImpl syncToLatestUseCase,
-        VersionRepositoryPort versionRepository
+        VersionRepositoryPort versionRepository,
+        ObtenerEstadoSincronizacionUseCase obtenerEstadoUseCase
     ) {
         this.fullSyncUseCase = fullSyncUseCase;
         this.syncToLatestUseCase = syncToLatestUseCase;
         this.versionRepository = versionRepository;
+        this.obtenerEstadoUseCase = obtenerEstadoUseCase;
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(
+        value = ApplicationReadyEvent.class,
+        condition = "@environment.getProperty('sync.arranque-habilitado', 'true') == 'true'"
+    )
     public void sincronizarAlArrancar() {
         Long versionLocal = versionRepository.obtenerVersionLocal();
         if (versionLocal == null) {
@@ -49,5 +58,9 @@ public class SyncService {
 
     public void forzarSincronizacionCompleta() {
         fullSyncUseCase.sincronizarCompleto();
+    }
+
+    public Optional<EstadoSincronizacion> obtenerEstado() {
+        return obtenerEstadoUseCase.obtener();
     }
 }

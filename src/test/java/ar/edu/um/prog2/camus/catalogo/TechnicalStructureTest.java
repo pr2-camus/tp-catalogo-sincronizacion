@@ -22,17 +22,20 @@ class TechnicalStructureTest {
         .layer("Security").definedBy("..security..")
         .optionalLayer("Persistence").definedBy("..repository..")
         .layer("Domain").definedBy("..domain..")
+        .optionalLayer("Application").definedBy("..application..")
+        .optionalLayer("Infrastructure").definedBy("..infrastructure..")
 
         .whereLayer("Config").mayNotBeAccessedByAnyLayer()
         .whereLayer("Web").mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Service").mayOnlyBeAccessedByLayers("Web", "Config")
-        .whereLayer("Security").mayOnlyBeAccessedByLayers("Config", "Service", "Web")
-        .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service", "Security", "Web", "Config")
-        .whereLayer("Domain").mayOnlyBeAccessedByLayers("Persistence", "Service", "Security", "Web", "Config")
+        .whereLayer("Security").mayOnlyBeAccessedByLayers("Config", "Service", "Web", "Application", "Infrastructure")
+        .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service", "Security", "Web", "Config", "Application", "Infrastructure")
+        .whereLayer("Domain").mayOnlyBeAccessedByLayers("Persistence", "Service", "Security", "Web", "Config", "Application", "Infrastructure")
 
         .ignoreDependency(belongToAnyOf(CatalogoApp.class), alwaysTrue())
         .ignoreDependency(alwaysTrue(), belongToAnyOf(
             ar.edu.um.prog2.camus.catalogo.config.Constants.class,
-            ar.edu.um.prog2.camus.catalogo.config.ApplicationProperties.class
+            ar.edu.um.prog2.camus.catalogo.config.ApplicationProperties.class,
+            ar.edu.um.prog2.camus.catalogo.shared.infrastructure.config.CatedraProperties.class
         ));
 }

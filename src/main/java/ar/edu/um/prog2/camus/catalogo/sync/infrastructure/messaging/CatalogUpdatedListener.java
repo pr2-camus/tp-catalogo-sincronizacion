@@ -33,7 +33,11 @@ public class CatalogUpdatedListener {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "${kafka.topics.catalogo}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+        topics = "${kafka.topics.catalogo}",
+        groupId = "${spring.kafka.consumer.group-id}",
+        autoStartup = "${kafka.listener.enabled:true}"
+    )
     @Transactional
     public void onCatalogUpdated(ConsumerRecord<String, String> record, Acknowledgment ack) {
         try {
