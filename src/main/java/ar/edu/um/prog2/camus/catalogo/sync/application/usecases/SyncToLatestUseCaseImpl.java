@@ -4,6 +4,7 @@ import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.CategoriaProfesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.HorarioSemanal;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.Profesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.out.CatalogoRepositoryPort;
+import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.in.SincronizarAlDiaUseCase;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.in.SincronizarCatalogoUseCase;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.RedisPort;
 import ar.edu.um.prog2.camus.catalogo.sync.domain.ports.out.SnapshotClientPort;
@@ -19,7 +20,7 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 @Component
-public class SyncToLatestUseCaseImpl {
+public class SyncToLatestUseCaseImpl implements SincronizarAlDiaUseCase {
 
     private static final Logger log = LoggerFactory.getLogger(SyncToLatestUseCaseImpl.class);
 
@@ -43,6 +44,7 @@ public class SyncToLatestUseCaseImpl {
         this.objectMapper = objectMapper;
     }
 
+    @Override
     public void sincronizarAlDia() {
         Long versionLocal = versionRepository.obtenerVersionLocal();
         Long versionActual = redisPort.obtenerVersionActual();
