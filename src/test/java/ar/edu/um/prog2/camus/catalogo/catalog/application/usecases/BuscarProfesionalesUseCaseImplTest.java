@@ -6,14 +6,14 @@ import static org.mockito.Mockito.when;
 
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.CriteriosBusqueda;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.Profesional;
-import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.out.ConsultaCatalogoPort;
+import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.out.CatalogoRepositoryPort;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class BuscarProfesionalesUseCaseImplTest {
 
-    private final ConsultaCatalogoPort consulta = mock(ConsultaCatalogoPort.class);
+    private final CatalogoRepositoryPort consulta = mock(CatalogoRepositoryPort.class);
     private final BuscarProfesionalesUseCaseImpl useCase = new BuscarProfesionalesUseCaseImpl(consulta);
     private final List<Profesional> resultado = List.of(new Profesional());
 

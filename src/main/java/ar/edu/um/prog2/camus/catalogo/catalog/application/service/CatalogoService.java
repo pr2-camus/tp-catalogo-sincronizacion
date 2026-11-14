@@ -1,5 +1,6 @@
 package ar.edu.um.prog2.camus.catalogo.catalog.application.service;
 
+import ar.edu.um.prog2.camus.catalogo.catalog.application.exception.ProfesionalNoEncontradoException;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.AgendaProfesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.CategoriaProfesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.CriteriosBusqueda;
@@ -8,7 +9,6 @@ import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.in.BuscarProfesionale
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.in.ListarCategoriasUseCase;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.in.ObtenerAgendaUseCase;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,7 +36,7 @@ public class CatalogoService {
         return buscarProfesionales.buscar(criterios);
     }
 
-    public Optional<AgendaProfesional> obtenerAgenda(Long profesionalId) {
-        return obtenerAgenda.obtenerAgenda(profesionalId);
+    public AgendaProfesional obtenerAgenda(Long profesionalId) {
+        return obtenerAgenda.obtenerAgenda(profesionalId).orElseThrow(() -> new ProfesionalNoEncontradoException(profesionalId));
     }
 }
