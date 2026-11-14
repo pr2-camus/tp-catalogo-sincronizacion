@@ -3,7 +3,7 @@ package ar.edu.um.prog2.camus.catalogo.catalog.application.usecases;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.CriteriosBusqueda;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.Profesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.in.BuscarProfesionalesUseCase;
-import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.out.ConsultaCatalogoPort;
+import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.out.CatalogoRepositoryPort;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class BuscarProfesionalesUseCaseImpl implements BuscarProfesionalesUseCase {
 
-    private final ConsultaCatalogoPort consulta;
+    private final CatalogoRepositoryPort consulta;
 
-    public BuscarProfesionalesUseCaseImpl(ConsultaCatalogoPort consulta) {
+    public BuscarProfesionalesUseCaseImpl(CatalogoRepositoryPort consulta) {
         this.consulta = consulta;
     }
 
