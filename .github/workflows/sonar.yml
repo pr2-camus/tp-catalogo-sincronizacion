@@ -24,10 +24,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./mvnw sonar:sonar \
+          ./mvnw -B -ntp verify sonar:sonar \
             -Dsonar.projectKey=pr2-camus_tp-catalogo-sincronizacion \
             -Dsonar.organization=pr2-camus \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dmaven.test.skip=true \
-            -DskipTests=true
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
