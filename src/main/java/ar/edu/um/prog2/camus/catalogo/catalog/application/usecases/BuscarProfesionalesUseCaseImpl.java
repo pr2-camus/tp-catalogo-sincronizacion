@@ -5,6 +5,8 @@ import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.Profesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.in.BuscarProfesionalesUseCase;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.ports.out.ConsultaCatalogoPort;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,19 +20,31 @@ public class BuscarProfesionalesUseCaseImpl implements BuscarProfesionalesUseCas
 
     @Override
     public List<Profesional> buscar(CriteriosBusqueda criterios) {
-        // Se aplica el primer filtro presente.
+        List<Profesional> resultado = null;
         if (criterios.categoryId() != null) {
-            return consulta.buscarPorCategoria(criterios.categoryId());
+            resultado = combinar(resultado, consulta.buscarPorCategoria(criterios.categoryId()));
         }
         if (criterios.name() != null) {
-            return consulta.buscarPorNombre(criterios.name());
+            resultado = combinar(resultado, consulta.buscarPorNombre(criterios.name()));
         }
         if (criterios.enabled() != null) {
-            return consulta.buscarPorHabilitado(criterios.enabled());
+            resultado = combinar(resultado, consulta.buscarPorHabilitado(criterios.enabled()));
         }
         if (criterios.availableOn() != null) {
-            return consulta.buscarPorDiaDeSemana(criterios.availableOn().getDayOfWeek().name());
+            resultado = combinar(resultado, consulta.buscarPorDiaDeSemana(criterios.availableOn().getDayOfWeek().name()));
         }
-        return consulta.obtenerProfesionales();
+        return resultado != null ? resultado : consulta.obtenerProfesionales();
+    }
+
+    /** Se queda solo con los profesionales que cumplen todos los filtros aplicados hasta ahora. */
+    private static List<Profesional> combinar(List<Profesional> actual, List<Profesional> nuevos) {
+        if (actual == null) {
+            return nuevos;
+        }
+        Set<Long> ids = nuevos.stream().map(Profesional::getId).collect(Collectors.toSet());
+        return actual
+            .stream()
+            .filter(p -> ids.contains(p.getId()))
+            .toList();
     }
 }
