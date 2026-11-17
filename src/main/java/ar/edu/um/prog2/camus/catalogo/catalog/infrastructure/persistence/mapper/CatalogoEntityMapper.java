@@ -11,7 +11,44 @@ import org.springframework.stereotype.Component;
 @Component
 public class CatalogoEntityMapper {
 
-    public CategoriaProfesional toDomain(CategoryEntity e) {
+    public CategoryEntity toEntity(CategoriaProfesional c) {
+        CategoryEntity e = new CategoryEntity();
+        e.setId(c.getId());
+        e.setName(c.getName());
+        e.setDescription(c.getDescription());
+        e.setEnabled(c.getEnabled());
+        e.setCreatedAt(c.getCreatedAt());
+        e.setUpdatedAt(c.getUpdatedAt());
+        return e;
+    }
+
+    public ProfessionalEntity toEntity(Profesional p) {
+        ProfessionalEntity e = new ProfessionalEntity();
+        e.setId(p.getId());
+        e.setCategoryId(p.getCategoryId());
+        e.setFirstName(p.getFirstName());
+        e.setLastName(p.getLastName());
+        e.setEnabled(p.getEnabled());
+        e.setCreatedAt(p.getCreatedAt());
+        e.setUpdatedAt(p.getUpdatedAt());
+        return e;
+    }
+
+    public WeeklyScheduleEntity toEntity(HorarioSemanal h) {
+        WeeklyScheduleEntity e = new WeeklyScheduleEntity();
+        e.setId(h.getId());
+        e.setProfessionalId(h.getProfessionalId());
+        e.setDayOfWeek(h.getDayOfWeek());
+        e.setStartTime(h.getStartTime());
+        e.setEndTime(h.getEndTime());
+        e.setSlotDurationMinutes(h.getSlotDurationMinutes());
+        e.setEnabled(h.getEnabled());
+        e.setCreatedAt(h.getCreatedAt());
+        e.setUpdatedAt(h.getUpdatedAt());
+        return e;
+    }
+
+    public CategoriaProfesional toDomainModel(CategoryEntity e) {
         CategoriaProfesional c = new CategoriaProfesional();
         c.setId(e.getId());
         c.setName(e.getName());
@@ -22,7 +59,7 @@ public class CatalogoEntityMapper {
         return c;
     }
 
-    public Profesional toDomain(ProfessionalEntity e) {
+    public Profesional toDomainModel(ProfessionalEntity e) {
         Profesional p = new Profesional();
         p.setId(e.getId());
         p.setCategoryId(e.getCategoryId());
@@ -34,7 +71,7 @@ public class CatalogoEntityMapper {
         return p;
     }
 
-    public HorarioSemanal toDomain(WeeklyScheduleEntity e) {
+    public HorarioSemanal toDomainModel(WeeklyScheduleEntity e) {
         HorarioSemanal h = new HorarioSemanal();
         h.setId(e.getId());
         h.setProfessionalId(e.getProfessionalId());

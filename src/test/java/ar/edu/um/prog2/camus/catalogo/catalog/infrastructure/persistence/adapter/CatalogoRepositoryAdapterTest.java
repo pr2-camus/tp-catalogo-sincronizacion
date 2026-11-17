@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class ConsultaCatalogoAdapterTest {
+class CatalogoRepositoryAdapterTest {
 
     private final JpaCategoryRepository categorias = mock(JpaCategoryRepository.class);
     private final JpaProfessionalRepository profesionales = mock(JpaProfessionalRepository.class);
     private final JpaWeeklyScheduleRepository horarios = mock(JpaWeeklyScheduleRepository.class);
-    private final ConsultaCatalogoAdapter adapter = new ConsultaCatalogoAdapter(
+    private final CatalogoRepositoryAdapter adapter = new CatalogoRepositoryAdapter(
         categorias,
         profesionales,
         horarios,

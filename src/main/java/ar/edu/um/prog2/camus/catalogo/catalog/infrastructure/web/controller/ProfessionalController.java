@@ -46,6 +46,6 @@ public class ProfessionalController {
 
     @GetMapping("/professionals/{id}/agenda")
     public ResponseEntity<AgendaResponse> obtenerAgenda(@PathVariable Long id) {
-        return catalogoService.obtenerAgenda(id).map(mapper::toResponse).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(mapper.toResponse(catalogoService.obtenerAgenda(id)));
     }
 }

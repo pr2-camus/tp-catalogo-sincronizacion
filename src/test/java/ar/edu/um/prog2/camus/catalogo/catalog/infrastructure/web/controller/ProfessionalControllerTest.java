@@ -1,5 +1,6 @@
 package ar.edu.um.prog2.camus.catalogo.catalog.infrastructure.web.controller;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -7,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import ar.edu.um.prog2.camus.catalogo.catalog.application.exception.ProfesionalNoEncontradoException;
 import ar.edu.um.prog2.camus.catalogo.catalog.application.service.CatalogoService;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.AgendaProfesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.CategoriaProfesional;
@@ -15,7 +17,6 @@ import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.HorarioSemanal;
 import ar.edu.um.prog2.camus.catalogo.catalog.domain.model.Profesional;
 import ar.edu.um.prog2.camus.catalogo.catalog.infrastructure.web.mapper.CatalogoDtoMapper;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -45,7 +46,7 @@ class ProfessionalControllerTest {
         h.setEndTime("12:00");
         h.setSlotDurationMinutes(30);
         h.setEnabled(true);
-        when(service.obtenerAgenda(204L)).thenReturn(Optional.of(new AgendaProfesional(ana(), List.of(h))));
+        when(service.obtenerAgenda(204L)).thenReturn(new AgendaProfesional(ana(), List.of(h)));
 
         mockMvc
             .perform(get("/api/professionals/204/agenda"))
@@ -57,10 +58,12 @@ class ProfessionalControllerTest {
     }
 
     @Test
-    void unProfesionalInexistenteDevuelve404() throws Exception {
-        when(service.obtenerAgenda(999L)).thenReturn(Optional.empty());
+    void unProfesionalInexistentePropagaLaExcepcionDeNegocio() {
+        when(service.obtenerAgenda(999L)).thenThrow(new ProfesionalNoEncontradoException(999L));
 
-        mockMvc.perform(get("/api/professionals/999/agenda")).andExpect(status().isNotFound());
+        assertThatThrownBy(() -> mockMvc.perform(get("/api/professionals/999/agenda"))).hasCauseInstanceOf(
+            ProfesionalNoEncontradoException.class
+        );
     }
 
     @Test

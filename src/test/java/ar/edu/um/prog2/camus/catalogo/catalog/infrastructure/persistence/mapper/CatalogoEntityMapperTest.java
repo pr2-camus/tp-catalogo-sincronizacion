@@ -27,7 +27,7 @@ class CatalogoEntityMapperTest {
         e.setCreatedAt(CREADO);
         e.setUpdatedAt(ACTUALIZADO);
 
-        CategoriaProfesional c = mapper.toDomain(e);
+        CategoriaProfesional c = mapper.toDomainModel(e);
 
         assertThat(c.getId()).isEqualTo(101L);
         assertThat(c.getName()).isEqualTo("Cardiologia");
@@ -48,7 +48,7 @@ class CatalogoEntityMapperTest {
         e.setCreatedAt(CREADO);
         e.setUpdatedAt(ACTUALIZADO);
 
-        Profesional p = mapper.toDomain(e);
+        Profesional p = mapper.toDomainModel(e);
 
         assertThat(p.getId()).isEqualTo(204L);
         assertThat(p.getCategoryId()).isEqualTo(101L);
@@ -72,7 +72,7 @@ class CatalogoEntityMapperTest {
         e.setCreatedAt(CREADO);
         e.setUpdatedAt(ACTUALIZADO);
 
-        HorarioSemanal h = mapper.toDomain(e);
+        HorarioSemanal h = mapper.toDomainModel(e);
 
         assertThat(h.getId()).isEqualTo(1L);
         assertThat(h.getProfessionalId()).isEqualTo(204L);
