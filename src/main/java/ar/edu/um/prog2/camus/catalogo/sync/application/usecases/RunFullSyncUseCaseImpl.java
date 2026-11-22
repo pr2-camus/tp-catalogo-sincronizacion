@@ -46,11 +46,4 @@ public class RunFullSyncUseCaseImpl implements SincronizarCatalogoUseCase {
 
         log.info("Sincronizacion completa finalizada. Version aplicada: {}", snapshot.getSnapshotVersion());
     }
-
-    @Override
-    @Transactional
-    public void sincronizarIncremental(Long nuevaVersion) {
-        // Se implementa en CAT-9
-        log.info("Sincronizacion incremental pendiente de implementacion.");
-    }
 }
