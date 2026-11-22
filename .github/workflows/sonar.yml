@@ -28,5 +28,6 @@ jobs:
             -Dsonar.projectKey=pr2-camus_tp-catalogo-sincronizacion \
             -Dsonar.organization=pr2-camus \
             -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.cpd.exclusions=**/infrastructure/persistence/entity/**/*,**/domain/model/**/* \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
