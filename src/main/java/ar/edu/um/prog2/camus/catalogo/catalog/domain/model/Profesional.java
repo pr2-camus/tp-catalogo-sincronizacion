@@ -1,26 +1,12 @@
 package ar.edu.um.prog2.camus.catalogo.catalog.domain.model;
 
-import java.time.Instant;
+public class Profesional extends ElementoCatalogo {
 
-public class Profesional {
-
-    private Long id;
     private Long categoryId;
     private String firstName;
     private String lastName;
-    private Boolean enabled;
-    private Instant createdAt;
-    private Instant updatedAt;
 
     public Profesional() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getCategoryId() {
         return categoryId;
@@ -44,29 +30,5 @@ public class Profesional {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

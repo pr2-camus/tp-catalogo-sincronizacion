@@ -1,29 +1,17 @@
 package ar.edu.um.prog2.camus.catalogo.catalog.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 
 @Entity
 @Table(name = "sync_state")
-public class SyncStateEntity {
-
-    @Id
-    private Long id = 1L;
+public class SyncStateEntity extends BaseEntity {
 
     @Column(name = "current_version", nullable = false)
     private Long currentVersion;
 
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
-
-    public SyncStateEntity() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    /** Hay una sola fila de estado, con id 1. */
+    public SyncStateEntity() {
+        setId(1L);
     }
 
     public Long getCurrentVersion() {
@@ -32,13 +20,5 @@ public class SyncStateEntity {
 
     public void setCurrentVersion(Long currentVersion) {
         this.currentVersion = currentVersion;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

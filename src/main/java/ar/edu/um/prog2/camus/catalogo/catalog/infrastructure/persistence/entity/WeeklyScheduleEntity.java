@@ -1,14 +1,10 @@
 package ar.edu.um.prog2.camus.catalogo.catalog.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 
 @Entity
 @Table(name = "weekly_schedule")
-public class WeeklyScheduleEntity {
-
-    @Id
-    private Long id;
+public class WeeklyScheduleEntity extends CatalogEntity {
 
     @Column(name = "professional_id", nullable = false)
     private Long professionalId;
@@ -25,24 +21,7 @@ public class WeeklyScheduleEntity {
     @Column(name = "slot_duration_minutes", nullable = false)
     private Integer slotDurationMinutes;
 
-    @Column(nullable = false)
-    private Boolean enabled;
-
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
-
     public WeeklyScheduleEntity() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getProfessionalId() {
         return professionalId;
@@ -82,29 +61,5 @@ public class WeeklyScheduleEntity {
 
     public void setSlotDurationMinutes(Integer slotDurationMinutes) {
         this.slotDurationMinutes = slotDurationMinutes;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
